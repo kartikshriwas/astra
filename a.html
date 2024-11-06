@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        :root {
+            --background-color: rgba(255, 255, 255, 0.15);
+            --border-color: rgba(255, 255, 255, 0.3);
+            --text-color: #ffffff;
+            --input-background: rgba(255, 255, 255, 0.2);
+            --highlight-color: #1e90ff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --blur-effect: blur(10px);
+            --font-family: Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .poll-container {
+            background: var(--background-color);
+            border-radius: 16px;
+            padding: 20px;
+            width: 400px;
+            backdrop-filter: var(--blur-effect);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .dropdown {
+            position: relative;
+            width: 100%;
+            margin-bottom: 15px;
+            background: var(--input-background);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            cursor: pointer;
+            backdrop-filter: var(--blur-effect);
+        }
+
+        .dropdown-selected {
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-selected:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            left: 0;
+            background: var(--background-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            z-index: 1;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            backdrop-filter: blur(8px);
+        }
+
+
+        .dropdown-option {
+            padding: 10px;
+            color: var(--text-color);
+            transition: background 0.3s;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown.open .dropdown-options {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <div class="poll-container">
+            <div class="dropdown" id="poll-duration-dropdown">
+                <div class="dropdown-selected">24 hours</div>
+                <div class="dropdown-options">
+                    <div class="dropdown-option" data-value="1">1 hour</div>
+                    <div class="dropdown-option" data-value="24">24 hours</div>
+                    <div class="dropdown-option" data-value="72">3 days</div>
+                    <div class="dropdown-option" data-value="168">1 week</div>
+                </div>
+            </div> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, nam ratione? Esse blanditiis quod
+            ducimus, explicabo quaerat quam neque labore libero quo consequatur similique. Quaerat aliquid fugit iusto
+            illo ipsa!
+        </div>
+        </div>
+    </body>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const dropdown = document.getElementById("poll-duration-dropdown");
+            const selected = dropdown.querySelector(".dropdown-selected");
+            selected.addEventListener("click", () => {
+                dropdown.classList.toggle("open");
+                overlay.style.display = dropdown.classList.contains("open") ? "block" : "none";
+            });
+
+        });
+    </script>
+    <body>
+</html>
