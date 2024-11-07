@@ -1,125 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <style>
-        :root {
-            --background-color: rgba(255, 255, 255, 0.15);
-            --border-color: rgba(255, 255, 255, 0.3);
-            --text-color: #ffffff;
-            --input-background: rgba(255, 255, 255, 0.2);
-            --highlight-color: #1e90ff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --blur-effect: blur(10px);
-            --font-family: Arial, sans-serif;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poling</title>
+  </head>
+  <style>
+    :root {
+  --background-color-unsupported: linear-gradient(135deg, #2575fc, rgba(107, 17, 203, 0.8));
+  --background-color: rgba(255, 255, 255, 0.15);
+  --border-color: rgba(255, 255, 255, 0.3);
+  --text-color: rgb(255, 255, 255);
+  --input-background: rgba(255, 255, 255, 0.2);
+  --highlight-color: #1e90ff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --blur-effect: blur(8px);
+  --font-family: Arial, sans-serif;
+  --options-border-radius: 8px;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-        }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+}
 
-        body {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+body {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-        .poll-container {
-            background: var(--background-color);
-            border-radius: 16px;
-            padding: 20px;
-            width: 400px;
-            backdrop-filter: var(--blur-effect);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px var(--shadow-color);
-            color: var(--text-color);
-            text-align: center;
-        }
+.poll-container {
+  background: var(--background-color);
+  border-radius: 16px;
+  padding: 20px;
+  width: 400px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  color: var(--text-color);
+  text-align: center;
+}
 
-        .dropdown {
-            position: relative;
-            width: 100%;
-            margin-bottom: 15px;
-            background: var(--input-background);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: var(--text-color);
-            cursor: pointer;
-            backdrop-filter: var(--blur-effect);
-        }
+.dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+  background: var(--input-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-color);
+  cursor: pointer;
+}
 
-        .dropdown-selected {
-            padding: 10px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
+.dropdown-selected {
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
 
-        .dropdown-selected:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+.dropdown-selected:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
-        .dropdown-options {
-            display: none;
-            position: absolute;
-            width: 100%;
-            top: 100%;
-            left: 0;
-            background: var(--background-color);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            z-index: 1;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            backdrop-filter: blur(8px);
-        }
+.dropdown-options {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 0;
+  border-radius: var(--options-border-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  color: var(--text-color);
+  z-index: 0;
+  background: var(--background-color-unsupported);
+}
 
+.dropdown-options::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  background: var(--background-color-unsupported);
+  border-radius: var(--options-border-radius);
+  z-index: -1;
+}
 
-        .dropdown-option {
-            padding: 10px;
-            color: var(--text-color);
-            transition: background 0.3s;
-            border-bottom: 1px solid var(--border-color);
-        }
+/* @supports (backdrop-filter: blur(10px)) {
+    } */
+    .backdrop-supported {
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      background: var(--background-color) !important;
+      will-change: backdrop-filter;
+    }
+    
+    .backdrop-supported::before {
+      display: none !important;
+    }
 
-        .dropdown-option:last-child {
-            border-bottom: none;
-        }
+.dropdown-option {
+  padding: 10px;
+  color: var(--text-color);
+  transition: background 0.3s;
+  border-bottom: 1px solid var(--border-color);
+}
 
-        .dropdown.open .dropdown-options {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <body>
-        <div class="poll-container">
-            <div class="dropdown" id="poll-duration-dropdown">
-                <div class="dropdown-selected">24 hours</div>
-                <div class="dropdown-options">
-                    <div class="dropdown-option" data-value="1">1 hour</div>
-                    <div class="dropdown-option" data-value="24">24 hours</div>
-                    <div class="dropdown-option" data-value="72">3 days</div>
-                    <div class="dropdown-option" data-value="168">1 week</div>
-                </div>
-            </div> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam, nam ratione? Esse blanditiis quod
-            ducimus, explicabo quaerat quam neque labore libero quo consequatur similique. Quaerat aliquid fugit iusto
-            illo ipsa!
+.dropdown-option:last-child {
+  border-bottom: none;
+}
+
+.dropdown.open .dropdown-options {
+  display: block;
+}
+
+.dropdown.open .dropdown-option:hover {
+  background: var(--background-color);
+}
+
+  </style>
+  <body>
+    <div class="poll-container">
+      <div class="dropdown" id="poll-duration-dropdown">
+        <div class="dropdown-selected">24 hours</div>
+        <div class="dropdown-options" id="dropdown-options">
+          <div class="dropdown-option" data-value="1">1 hour</div>
+          <div class="dropdown-option" data-value="24">24 hours</div>
+          <div class="dropdown-option" data-value="72">3 days</div>
+          <div class="dropdown-option" data-value="168">1 week</div>
         </div>
-        </div>
-    </body>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const dropdown = document.getElementById("poll-duration-dropdown");
-            const selected = dropdown.querySelector(".dropdown-selected");
-            selected.addEventListener("click", () => {
-                dropdown.classList.toggle("open");
-                overlay.style.display = dropdown.classList.contains("open") ? "block" : "none";
-            });
+      </div>
+      <div class="data">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis sequi nemo quos nulla qui ducimus reiciendis, deserunt ut voluptates maiores placeat! Facilis, repellendus!
+      </div>
+    </div>
+  </body>
+  <script>
 
-        });
-    </script>
-    <body>
+    const dropdownOptions = document.querySelector(".dropdown-options")
+    document.addEventListener("DOMContentLoaded", () => {
+    if (CSS.supports("backdrop-filter", "blur(10px)")) {
+      dropdownOptions.classList.add("backdrop-supported");
+    }
+  });
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropdown = document.getElementById("poll-duration-dropdown");
+      const selected = dropdown.querySelector(".dropdown-selected");
+      const options = dropdown.querySelector(".dropdown-options");
+
+      selected.addEventListener("click", () => {
+        dropdown.classList.toggle("open");
+      });
+
+      options.addEventListener("click", (event) => {
+        if (event.target.classList.contains("dropdown-option")) {
+          const value = event.target.getAttribute("data-value");
+          const text = event.target.textContent;
+
+          selected.textContent = text;
+          hiddenInput.value = value;
+          dropdown.classList.remove("open");
+        }
+      });
+      document.addEventListener("click", (event) => {
+        if (!dropdown.contains(event.target)) {
+          dropdown.classList.remove("open");
+        }
+      });
+    });
+  </script>
 </html>
